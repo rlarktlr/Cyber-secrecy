@@ -400,11 +400,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1425119237}
   - component: {fileID: 1425119242}
+  - component: {fileID: 1425119243}
   - component: {fileID: 1425119241}
   - component: {fileID: 1425119240}
   - component: {fileID: 1425119238}
   - component: {fileID: 1425119239}
-  - component: {fileID: 1425119243}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player

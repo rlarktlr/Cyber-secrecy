@@ -545,7 +545,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsUIOpen: 0
   _clickDelay: 0.2
-  _playerInput: {fileID: 85365181}
   windowTable:
   - type: 0
     prefab: {fileID: 5425165983141738989, guid: 0688d32714e32ff43ab1c8c12154f81c, type: 3}
@@ -557,6 +556,8 @@ MonoBehaviour:
     prefab: {fileID: 2151456104138815549, guid: 227b545a683d7e74c852ba158c53b946, type: 3}
   - type: 4
     prefab: {fileID: 1263032079297456672, guid: 59fb13db98e052e4cb30609500240854, type: 3}
+  - type: 8
+    prefab: {fileID: 8452358822307956873, guid: 8db357515fad1ad469860018f288be7e, type: 3}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

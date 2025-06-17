@@ -1,7 +1,9 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class WindowUIManager : SingletonDontDestroy<WindowUIManager>
 {
@@ -10,9 +12,6 @@ public class WindowUIManager : SingletonDontDestroy<WindowUIManager>
     [SerializeField] float _clickDelay;
     float _lastOpenTime;
 
-    [Header("Input Actions")]
-    [SerializeField] PlayerInput _playerInput;
-    InputAction _submit, _cancel;
 
     [Header("Window Table")]
     [SerializeField] List<WindowInfo> windowTable;
@@ -22,11 +21,6 @@ public class WindowUIManager : SingletonDontDestroy<WindowUIManager>
 
     protected override void OnAwake()
     {
-        _submit = _playerInput.actions["Submit"];
-        _cancel = _playerInput.actions["Cancel"];
-        _submit.performed += _ => OnEnter();
-        _cancel.performed += _ => OnEsc();
-
         _pools = new();
         _zOrder = new();
 
@@ -98,6 +92,7 @@ public class WindowUIManager : SingletonDontDestroy<WindowUIManager>
             isClosable
         );
     }
+    public void OpenInventory() => OpenWindowSafe(WindowUIType.Inventory);
     #endregion
     #region Main Logic
     IWindowUI OpenWindowSafe(WindowUIType type)
@@ -141,6 +136,15 @@ public class WindowUIManager : SingletonDontDestroy<WindowUIManager>
     }
     #endregion
     #region Input
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+            OnTab();
+        if (Input.GetKeyDown(KeyCode.Escape))
+            OnEsc();
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            OnEnter();
+    }
     void OnEnter()
     {
         if (_zOrder.Count == 0) return;
@@ -154,6 +158,14 @@ public class WindowUIManager : SingletonDontDestroy<WindowUIManager>
             OpenPaused();
         else
             CloseWindow(_zOrder[^1]);
+    }
+    void OnTab()
+    {
+        bool isInventoryOpen = _zOrder.Any(w => w.WindowType == WindowUIType.Inventory);
+        if (isInventoryOpen)
+            return;
+
+        OpenInventory();
     }
     #endregion
 }

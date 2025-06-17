@@ -2,9 +2,9 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IWindowUI
 {
-    [SerializeField] Canvas inventoryUI;
+    [SerializeField] GameObject _root;
     public PlayerStat playerStatus;
     [SerializeField] TMP_Text coinText;
 
@@ -18,6 +18,10 @@ public class InventoryUI : MonoBehaviour
     [Header("Item")]
     [SerializeField] Item[] itemTable;
     [SerializeField] GameObject itemPrefab;
+
+    public WindowUIType WindowType => WindowUIType.Inventory;
+
+    public bool IsActive => _root.activeSelf;
 
     void Awake()
     {
@@ -34,7 +38,7 @@ public class InventoryUI : MonoBehaviour
 
     void Update()
     {
-        if (!inventoryUI.enabled)
+        if (!IsActive)
         {
             ActiveSlotReset();
         }
@@ -113,5 +117,23 @@ public class InventoryUI : MonoBehaviour
                 Destroy(slot.transform.GetChild(i).gameObject);
             }
         }
+    }
+
+    public void Open()
+    {
+        UIAnimationUtil.PlayScaleIn(this, _root, _root.transform, 0.15f);
+    }
+
+    public void Close()
+    {
+        UIAnimationUtil.PlayScaleOut(this, _root, _root.transform, 0.1f);
+    }
+
+    public void Confirm()
+    { }
+
+    public void OnClose()
+    {
+        ActiveSlotReset();
     }
 }

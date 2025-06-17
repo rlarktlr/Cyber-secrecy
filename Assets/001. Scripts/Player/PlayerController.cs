@@ -24,13 +24,11 @@ public class PlayerController : Singleton<PlayerController>
 
     void OnEnable()
     {
-        var map = _input.actions.FindActionMap("Player");
-
-        _moveAction = map.FindAction("Move");
-        _attackAction = map.FindAction("Attack");
-        _utilityAction = map.FindAction("Utility");
-        _defenseAction = map.FindAction("Defend");
-        _interactAction = map.FindAction("Interact");
+        _moveAction = _input.actions["Move"];
+        _attackAction = _input.actions["Attack"];
+        _utilityAction = _input.actions["Utility"];
+        _defenseAction = _input.actions["Defend"];
+        _interactAction = _input.actions["Interact"];
 
         _moveAction.performed += ctx => OnMove(ctx.ReadValue<Vector2>().normalized);
         _moveAction.canceled += ctx => OnMove(Vector2.zero);
@@ -39,8 +37,6 @@ public class PlayerController : Singleton<PlayerController>
         _utilityAction.performed += _ => OnUtility();
         _defenseAction.performed += _ => OnDefend();
         _interactAction.performed += _ => OnInteract();
-
-        map.Enable();
     }
 
     void FixedUpdate()
