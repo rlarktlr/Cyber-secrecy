@@ -162,7 +162,7 @@ public interface IPuzzle
 [Serializable]
 public struct SpawnData
 {
-    public Vector3 spawnPoint;
+    public Vector3 _spawnPoint;
     public GameObject prefab;
 }
 static class MyUtility
@@ -220,3 +220,23 @@ public class PotionItem : Item
     }
 }
 public enum SlotTag { Head, Chest, Legs, Feet, Weapon, None }
+
+public abstract class Skill : MonoBehaviour
+{
+    [Header("Base")]
+    [SerializeField] float _cooldownTime = 1f;
+    float _timer = 0;
+
+    public void TimerTick()
+    {
+        if (_timer < _cooldownTime)
+            _timer += Ticker.TICK_TIME_10HZ;
+    }
+
+    public void TryActivate()
+    {
+        if (_timer >= _cooldownTime)
+            Activate();
+    }
+    protected abstract void Activate();
+}
